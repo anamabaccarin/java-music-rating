@@ -5,6 +5,9 @@ import javax.swing.JOptionPane;
 
 public class MensagemPopUp {
 
+    private MensagemPopUp() {
+    }
+
     /**
      * Exibe um pop up de erro com a mensagem da exceção.
      *
