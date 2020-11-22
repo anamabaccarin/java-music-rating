@@ -5,25 +5,28 @@ import javax.swing.JFrame;
 
 public class Controlador {
 
-    private static LoginTela telaLogin = new LoginTela();
+    private static LoginTela loginTela = new LoginTela();
 
-    private static CadastroTela telaCadastro = new CadastroTela();
+    private static CadastroTela cadastroTela = new CadastroTela();
+
+    private static DashboardTela dashboardTela = new DashboardTela();
 
     private Controlador() {
     }
 
     public static void mostrarTelaLogin() {
-        fecharTela(telaCadastro);
-        abrirTela(telaLogin);
+        fecharTela(cadastroTela);
+        abrirTela(loginTela);
     }
 
     public static void mostrarTelaCadastro() {
-        fecharTela(telaLogin);
-        abrirTela(telaCadastro);
+        fecharTela(loginTela);
+        abrirTela(cadastroTela);
     }
 
     public static void mostrarTelaDashboard() {
-
+        fecharTela(loginTela);
+        abrirTela(dashboardTela);
     }
 
     public static void mostrarTelaEscolherGenero() {
@@ -40,9 +43,9 @@ public class Controlador {
 
     private static void abrirTela(JFrame tela) {
         tela.setLocationRelativeTo(null);
-        tela.setVisible(true);
         tela.setResizable(false);
         tela.getContentPane().setBackground(Color.WHITE);
+        tela.setVisible(true);
     }
 
     private static void fecharTela(JFrame tela) {

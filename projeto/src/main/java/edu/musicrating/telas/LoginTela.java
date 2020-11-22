@@ -1,5 +1,7 @@
 package edu.musicrating.telas;
 
+import edu.musicrating.negocio.UsuarioNegocio;
+
 public class LoginTela extends javax.swing.JFrame {
 
     /**
@@ -31,7 +33,7 @@ public class LoginTela extends javax.swing.JFrame {
 
         senhaPasswordField.setBorder(javax.swing.BorderFactory.createTitledBorder("Senha"));
 
-        loginButton.setText("Login");
+        loginButton.setText("Entrar");
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginButtonActionPerformed(evt);
@@ -88,7 +90,16 @@ public class LoginTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            String loginOuEmail = loginTextField.getText();
+            String senha = new String(senhaPasswordField.getPassword());
+
+            UsuarioNegocio.login(loginOuEmail, senha);
+
+            Controlador.mostrarTelaDashboard();
+        } catch (Exception ex) {
+            MensagemPopUp.mostrarMensagemErro(this, ex);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void cadastroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroButtonActionPerformed

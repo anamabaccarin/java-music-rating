@@ -10,7 +10,7 @@ public class Usuario {
 
     private String login;
 
-    private String password;
+    private String senha;
 
     public Integer getId() {
         return id;
@@ -44,11 +44,11 @@ public class Usuario {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }
