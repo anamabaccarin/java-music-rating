@@ -12,6 +12,8 @@ GRANT ALL ON musicas.* TO 'admin'@'localhost';
 
 CREATE TABLE tb_usuario(
     id_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome_usuario VARCHAR(150) NOT NULL,
+    email_usuario VARCHAR(100) NOT NULL UNIQUE,
     login_usuario VARCHAR(100) NOT NULL UNIQUE,
     senha_usuario VARCHAR(50) NOT NULL
 );
@@ -54,9 +56,9 @@ CREATE TABLE tb_avaliacao (
 
 -- Insere dados padrões para o sistema
 
-INSERT INTO tb_usuario(id_usuario, login_usuario, senha_usuario) VALUES
-(1, 'anamaria', '1234'),
-(2, 'manuela', '1234');
+INSERT INTO tb_usuario(id_usuario, nome_usuario, email_usuario, login_usuario, senha_usuario) VALUES
+(1, 'Ana Maria', 'anamaria@email.com.br', 'anamaria', '1234'),
+(2, 'Manuela', 'manuela@email.com.br', 'manuela', '1234');
 
 INSERT INTO tb_musica(id_musica, nome_musica) VALUES
 (1, 'Crossroad Blues'),
