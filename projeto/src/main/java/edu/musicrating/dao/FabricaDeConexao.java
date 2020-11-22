@@ -1,4 +1,4 @@
-package edu.musicrating.acessodados;
+package edu.musicrating.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

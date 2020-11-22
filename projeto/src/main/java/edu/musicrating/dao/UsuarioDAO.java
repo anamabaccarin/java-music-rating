@@ -1,4 +1,4 @@
-package edu.musicrating.acessodados;
+package edu.musicrating.dao;
 
 import edu.musicrating.entidades.Usuario;
 import java.sql.Connection;
