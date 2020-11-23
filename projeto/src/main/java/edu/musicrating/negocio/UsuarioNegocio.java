@@ -2,6 +2,7 @@ package edu.musicrating.negocio;
 
 import edu.musicrating.dao.UsuarioDAO;
 import edu.musicrating.entidades.Usuario;
+import edu.musicrating.telas.Controlador;
 
 public class UsuarioNegocio {
 
@@ -60,9 +61,15 @@ public class UsuarioNegocio {
         usuario.setSenha(senha);
 
         // Consulta banco de dados
-        boolean sucesso = UsuarioDAO.login(usuario);
-        if (!sucesso) {
+        Usuario usuarioAutenticado = UsuarioDAO.login(usuario);
+        if (usuarioAutenticado == null) {
             throw new RuntimeException("Login/email ou senha invalidos");
         }
+
+        Controlador.setUsuarioAutenticado(usuarioAutenticado);
+    }
+
+    public static void logout() {
+        Controlador.setUsuarioAutenticado(null);
     }
 }

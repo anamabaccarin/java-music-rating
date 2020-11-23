@@ -12,6 +12,18 @@ public class LoginTela extends javax.swing.JFrame {
         initComponents();
     }
 
+    @Override
+    public void setVisible(boolean b) {
+        // Todas as vezes que for chamado "setVisible(true)", colocamos foco na caixa de texto do login
+        if (b) {
+            loginTextField.setText("");
+            senhaPasswordField.setText("");
+
+            loginTextField.grabFocus();
+        }
+        super.setVisible(b);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -95,8 +107,6 @@ public class LoginTela extends javax.swing.JFrame {
             String senha = new String(senhaPasswordField.getPassword());
 
             UsuarioNegocio.login(loginOuEmail, senha);
-
-            Controlador.mostrarTelaDashboard();
         } catch (Exception ex) {
             MensagemPopUp.mostrarMensagemErro(this, ex);
         }

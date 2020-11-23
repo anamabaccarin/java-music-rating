@@ -23,13 +23,14 @@ public class UsuarioDAO {
         }
     }
 
-    public static boolean login(Usuario usuario) throws Exception {
+    public static Usuario login(Usuario usuario) throws Exception {
         try ( Connection connection = FabricaDeConexao.obterConexao()) {
 
             String sql = new StringBuilder()
-                    .append("SELECT COUNT(*) FROM tb_usuario")
+                    .append("SELECT id_usuario, nome_usuario, login_usuario, email_usuario")
+                    .append(" FROM tb_usuario")
                     .append(" WHERE (login_usuario LIKE ? OR email_usuario LIKE ?)")
-                    .append(" AND senha_usuario LIKE ?")
+                    .append("   AND senha_usuario LIKE ?")
                     .toString();
 
             try ( PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -39,12 +40,15 @@ public class UsuarioDAO {
 
                 try ( ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        int count = rs.getInt(1);
-                        if (count == 1) {
-                            return true;
-                        }
+                        Usuario usuarioAutenticado = new Usuario();
+                        usuarioAutenticado.setId(rs.getInt("id_usuario"));
+                        usuarioAutenticado.setNome(rs.getString("nome_usuario"));
+                        usuarioAutenticado.setLogin(rs.getString("login_usuario"));
+                        usuarioAutenticado.setEmail(rs.getString("email_usuario"));
+
+                        return usuarioAutenticado;
                     }
-                    return false;
+                    return null;
                 }
             }
         }

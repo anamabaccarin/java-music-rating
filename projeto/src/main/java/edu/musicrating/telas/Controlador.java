@@ -1,5 +1,6 @@
 package edu.musicrating.telas;
 
+import edu.musicrating.entidades.Usuario;
 import java.awt.Color;
 import javax.swing.JFrame;
 
@@ -11,11 +12,27 @@ public class Controlador {
 
     private static DashboardTela dashboardTela = new DashboardTela();
 
+    private static Usuario usuarioAutenticado;
+
     private Controlador() {
+    }
+
+    public static Usuario getUsuarioAutenticado() {
+        return usuarioAutenticado;
+    }
+
+    public static void setUsuarioAutenticado(Usuario usuarioAutenticado) {
+        Controlador.usuarioAutenticado = usuarioAutenticado;
+        if (usuarioAutenticado == null) {
+            mostrarTelaLogin();
+        } else {
+            mostrarTelaDashboard();
+        }
     }
 
     public static void mostrarTelaLogin() {
         fecharTela(cadastroTela);
+        fecharTela(dashboardTela);
         abrirTela(loginTela);
     }
 
