@@ -6,7 +6,7 @@ public class Musica {
 
     private Integer id;
 
-    private String name;
+    private String nome;
 
     private List<Genero> generos;
 
@@ -18,12 +18,12 @@ public class Musica {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public List<Genero> getGeneros() {

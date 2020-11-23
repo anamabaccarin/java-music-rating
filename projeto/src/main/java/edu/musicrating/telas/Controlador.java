@@ -12,6 +12,8 @@ public class Controlador {
 
     private static DashboardTela dashboardTela = new DashboardTela();
 
+    private static GenerosTela generosTela = new GenerosTela();
+
     private static Usuario usuarioAutenticado;
 
     private Controlador() {
@@ -43,11 +45,13 @@ public class Controlador {
 
     public static void mostrarTelaDashboard() {
         fecharTela(loginTela);
+        fecharTela(generosTela);
         abrirTela(dashboardTela);
     }
 
-    public static void mostrarTelaEscolherGenero() {
-
+    public static void mostrarTelaGeneros() {
+        fecharTela(dashboardTela);
+        abrirTela(generosTela);
     }
 
     public static void mostrarTelaAvaliarMusica() {
@@ -55,7 +59,6 @@ public class Controlador {
     }
 
     public static void mostrarTelaReceberRecomendacao() {
-
     }
 
     private static void abrirTela(JFrame tela) {

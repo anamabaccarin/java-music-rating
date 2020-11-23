@@ -39,6 +39,7 @@ CREATE TABLE tb_musica_genero (
 CREATE TABLE tb_usuario_genero (
     id_usuario INT NOT NULL,
     id_genero INT NOT NULL,
+    data_registro DATETIME NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id_usuario),
     FOREIGN KEY (id_genero) REFERENCES tb_genero(id_genero),
     PRIMARY KEY (id_usuario, id_genero)
@@ -101,3 +102,7 @@ INSERT INTO tb_musica_genero(id_musica, id_genero) VALUES
 (15, 3),
 (16, 1),
 (16, 3);
+
+INSERT INTO tb_usuario_genero(id_usuario, id_genero, data_registro) VALUES
+(1, 3, NOW()),
+(2, 2, NOW());

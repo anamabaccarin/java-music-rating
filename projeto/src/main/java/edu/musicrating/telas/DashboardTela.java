@@ -99,7 +99,7 @@ public class DashboardTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void escolherGeneroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escolherGeneroButtonActionPerformed
-        // TODO add your handling code here:
+       Controlador.mostrarTelaGeneros();
     }//GEN-LAST:event_escolherGeneroButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed

@@ -5,7 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Classe com os comandos SQL relacionados a entidade Usuario.
+ */
 public class UsuarioDAO {
+
+    private UsuarioDAO() {
+    }
 
     public static void inserir(Usuario usuario) throws Exception {
         try ( Connection connection = FabricaDeConexao.obterConexao()) {
