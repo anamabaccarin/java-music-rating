@@ -77,12 +77,20 @@ INSERT INTO tb_musica(id_musica, nome_musica) VALUES
 (13, 'April in Paris'),
 (14, 'Autumn Leaves'),
 (15, 'Meaning and Mistery'),
-(16, 'Feeling Good');
+(16, 'Feeling Good'),
+(17, 'Travessia'),
+(18, 'Chão de Giz'),
+(19, 'Hoje Eu Quero Sair Só'),
+(20, 'Preciso me Encontrar'),
+(21, 'Chega de Saudade'),
+(22, 'La Belle de Jour'),
+(23, 'Apesar de Você');
 
 INSERT INTO tb_genero(id_genero, nome_genero) VALUES
 (1, 'Blues'),
 (2, 'Rock'),
-(3, 'Jazz');
+(3, 'Jazz'),
+(4, 'MPB');
 
 INSERT INTO tb_musica_genero(id_musica, id_genero) VALUES
 (1, 1),
@@ -101,7 +109,14 @@ INSERT INTO tb_musica_genero(id_musica, id_genero) VALUES
 (14, 3),
 (15, 3),
 (16, 1),
-(16, 3);
+(16, 3),
+(17, 4),
+(18, 4),
+(19, 4),
+(20, 4),
+(21, 4),
+(22, 4),
+(23, 4);
 
 INSERT INTO tb_usuario_genero(id_usuario, id_genero, data_registro) VALUES
 (1, 3, NOW()),
