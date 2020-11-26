@@ -33,4 +33,9 @@ public class Musica {
     public void setGeneros(List<Genero> generos) {
         this.generos = generos;
     }
+
+    @Override
+    public String toString() {
+        return getNome();
+    }
 }

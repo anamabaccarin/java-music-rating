@@ -55,7 +55,12 @@ public class DashboardTela extends javax.swing.JFrame {
             }
         });
 
-        avaliarButton.setText("Avaliar música");
+        avaliarButton.setText("Avaliar músicas");
+        avaliarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avaliarButtonActionPerformed(evt);
+            }
+        });
 
         receberRecomendacaoButton.setText("Receber recomendações de músicas!");
 
@@ -105,6 +110,10 @@ public class DashboardTela extends javax.swing.JFrame {
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
         UsuarioNegocio.logout();
     }//GEN-LAST:event_logoutButtonActionPerformed
+
+    private void avaliarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avaliarButtonActionPerformed
+        Controlador.mostrarTelaAvaliarMusica();
+    }//GEN-LAST:event_avaliarButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton avaliarButton;

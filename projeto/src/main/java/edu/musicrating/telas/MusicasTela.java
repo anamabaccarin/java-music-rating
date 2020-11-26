@@ -1,21 +1,109 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.musicrating.telas;
 
-/**
- *
- * @author anamaria
- */
+import edu.musicrating.entidades.Musica;
+import edu.musicrating.entidades.UsuarioMusica;
+import edu.musicrating.negocio.UsuarioMusicaNegocio;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
 public class MusicasTela extends javax.swing.JFrame {
+
+    private static final int COLUNA_MUSICA = 0;
+    private static final int COLUNA_AVALIAR = 2;
+
+    private DefaultTableModel musicasTableModel;
 
     /**
      * Creates new form MusicaTela
      */
     public MusicasTela() {
+        super("Avaliar Músicas");
+        this.musicasTableModel = new DefaultTableModel(new String[]{"Música", "Gênero", "Avaliação"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return (column == COLUNA_AVALIAR);
+            }
+
+            /**
+             * Intercepta as modificações dos dados do JTable para atualizar a
+             * base de dados
+             */
+            @Override
+            public void setValueAt(Object aValue, int row, int column) {
+                try {
+                    Integer avaliacao = (Integer) aValue;
+                    Musica musica = (Musica) musicasTableModel.getValueAt(row, COLUNA_MUSICA);
+                    if (avaliacao == 0) {
+                        UsuarioMusicaNegocio.removerAvaliacaoMusica(musica);
+                    } else {
+                        UsuarioMusicaNegocio.inserirAvaliacaoMusica(musica, avaliacao);
+                    }
+                    super.setValueAt(aValue, row, column);
+                } catch (Exception ex) {
+                    MensagemPopUp.mostrarMensagemErro(MusicasTela.this, ex);
+                }
+            }
+        };
+
         initComponents();
+
+        // Cria a combobox padrão para a avaliação
+        JComboBox avaliacaoComboBox = new JComboBox();
+        for (int i = 0; i <= 5; i++) {
+            avaliacaoComboBox.addItem(i);
+        }
+
+        // Configura a celula da tabela para ter uma combobox com editor (ao inves de uma caixa de textos, que é o padrão)
+        TableColumn colunaAvaliar = this.musicasTable.getColumnModel().getColumn(COLUNA_AVALIAR);
+        colunaAvaliar.setCellEditor(new DefaultCellEditor(avaliacaoComboBox));
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+            atualizar();
+        }
+        super.setVisible(b);
+    }
+
+    private DefaultTableModel getMusicasTableModel() {
+        return musicasTableModel;
+    }
+
+    private void atualizar() {
+        try {
+            // Preenche tabela com os valroes do banco de dados
+            List<UsuarioMusica> listaUsuarioMusica = UsuarioMusicaNegocio.listarMusicas();
+
+            // Exclui todas as linhas do JTable
+            musicasTableModel.setRowCount(0);
+
+            Iterator<UsuarioMusica> it = listaUsuarioMusica.iterator();
+            while (it.hasNext()) {
+                UsuarioMusica usuarioMusica = it.next();
+                Musica musica = usuarioMusica.getMusica();
+
+                // Utiliza lambda para converter uma lista de generos em lista de nomes de generos
+                List<String> nomesGeneros = musica.getGeneros()
+                        .stream()
+                        .map(genero -> genero.getNome())
+                        .collect(Collectors.toList());
+
+                musicasTableModel.addRow(new Object[]{
+                    musica,
+                    String.join(", ", nomesGeneros),
+                    usuarioMusica.getAvaliacao()
+                });
+            }
+
+        } catch (Exception e) {
+            MensagemPopUp.mostrarMensagemErro(this, e);
+        }
     }
 
     /**
@@ -29,21 +117,20 @@ public class MusicasTela extends javax.swing.JFrame {
 
         musicasScrollPane = new javax.swing.JScrollPane();
         musicasTable = new javax.swing.JTable();
+        voltarButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        musicasTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        musicasTable.setModel(getMusicasTableModel());
+        musicasTable.getTableHeader().setReorderingAllowed(false);
         musicasScrollPane.setViewportView(musicasTable);
+
+        voltarButton.setText("Voltar");
+        voltarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltarButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -51,58 +138,33 @@ public class MusicasTela extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(musicasScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(musicasScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(voltarButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(musicasScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addComponent(musicasScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(voltarButton)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MusicasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MusicasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MusicasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MusicasTela.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MusicasTela().setVisible(true);
-            }
-        });
-    }
+    private void voltarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voltarButtonActionPerformed
+        Controlador.mostrarTelaDashboard();
+    }//GEN-LAST:event_voltarButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane musicasScrollPane;
     private javax.swing.JTable musicasTable;
+    private javax.swing.JButton voltarButton;
     // End of variables declaration//GEN-END:variables
 }

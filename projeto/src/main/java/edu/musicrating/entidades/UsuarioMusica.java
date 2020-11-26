@@ -1,7 +1,5 @@
 package edu.musicrating.entidades;
 
-import java.util.Date;
-
 public class UsuarioMusica {
 
     private Musica musica;
@@ -9,8 +7,6 @@ public class UsuarioMusica {
     private Usuario usuario;
 
     private Integer avaliacao;
-
-    private Date dataRegistro;
 
     public UsuarioMusica() {
     }
@@ -37,13 +33,5 @@ public class UsuarioMusica {
 
     public void setAvaliacao(Integer avaliacao) {
         this.avaliacao = avaliacao;
-    }
-
-    public Date getDataRegistro() {
-        return dataRegistro;
-    }
-
-    public void setDataRegistro(Date dataRegistro) {
-        this.dataRegistro = dataRegistro;
     }
 }

@@ -22,7 +22,7 @@ public class UsuarioMusicaDAO {
         try ( Connection connection = FabricaDeConexao.obterConexao()) {
 
             String sql = new StringBuilder()
-                    .append("SELECT M.id_musica, M.nome_musica, G.id_genero, G.nome_genero, UM.avaliacao, UM.data_registro")
+                    .append("SELECT M.id_musica, M.nome_musica, G.id_genero, G.nome_genero, UM.avaliacao")
                     .append(" FROM tb_musica M")
                     .append(" INNER JOIN tb_musica_genero MG ON MG.id_musica = M.id_musica")
                     .append(" INNER JOIN tb_usuario_genero UG ON UG.id_genero = MG.id_genero AND UG.id_usuario = ?")
@@ -37,7 +37,7 @@ public class UsuarioMusicaDAO {
                 try ( ResultSet rs = ps.executeQuery()) {
 
                     List<UsuarioMusica> lista = new ArrayList<>();
-                    
+
                     // Mapa para garantir uma unica instancia de musica que pode conter mais de um genero
                     Map<Integer, Musica> musicasMap = new HashMap<>();
 
@@ -58,21 +58,53 @@ public class UsuarioMusicaDAO {
                             musica.setId(idMusica);
                             musica.setNome(rs.getString("nome_musica"));
                             musica.setGeneros(new ArrayList());
-                            
+
                             musicasMap.put(idMusica, musica);
+
+                            // Instancia UsuarioMusica
+                            UsuarioMusica usuarioMusica = new UsuarioMusica();
+                            usuarioMusica.setAvaliacao(rs.getInt("avaliacao"));
+                            usuarioMusica.setMusica(musica);
+                            usuarioMusica.setUsuario(usuario);
+
+                            lista.add(usuarioMusica);
                         }
                         musica.getGeneros().add(genero);
 
-                        // Instancia UsuarioMusica
-                        UsuarioMusica usuarioMusica = new UsuarioMusica();
-                        usuarioMusica.setAvaliacao(rs.getInt("avaliacao"));
-                        usuarioMusica.setDataRegistro(rs.getTimestamp("data_registro"));
-                        usuarioMusica.setMusica(musica);
-                        usuarioMusica.setUsuario(usuario);
                     }
                     return lista;
                 }
             }
         }
     }
+
+    public static void inserirAvaliacaoMusica(UsuarioMusica usuarioMusica) throws Exception {
+        try ( Connection connection = FabricaDeConexao.obterConexao()) {
+
+            String sql = "INSERT INTO tb_usuario_musica (id_usuario, id_musica, avaliacao) VALUES (?, ?, ?)";
+
+            try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, usuarioMusica.getUsuario().getId());
+                ps.setInt(2, usuarioMusica.getMusica().getId());
+                ps.setInt(3, usuarioMusica.getAvaliacao());
+
+                ps.executeUpdate();
+            }
+        }
+    }
+
+    public static void removerAvaliacaoMusica(UsuarioMusica usuarioMusica) throws Exception {
+        try ( Connection connection = FabricaDeConexao.obterConexao()) {
+
+            String sql = "DELETE FROM tb_usuario_musica WHERE id_usuario = ? AND id_musica = ?";
+
+            try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+                ps.setInt(1, usuarioMusica.getUsuario().getId());
+                ps.setInt(2, usuarioMusica.getMusica().getId());
+
+                ps.executeUpdate();
+            }
+        }
+    }
+
 }

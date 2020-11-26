@@ -64,8 +64,11 @@
     </Component>
     <Component class="javax.swing.JButton" name="avaliarButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Avaliar m&#xfa;sica"/>
+        <Property name="text" type="java.lang.String" value="Avaliar m&#xfa;sicas"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="avaliarButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="receberRecomendacaoButton">
       <Properties>

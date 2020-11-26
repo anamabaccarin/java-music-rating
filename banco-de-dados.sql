@@ -48,7 +48,6 @@ CREATE TABLE tb_usuario_genero (
 CREATE TABLE tb_usuario_musica (
     id_usuario INT NOT NULL,
     id_musica INT NOT NULL,
-    data_registro DATETIME NOT NULL,
     avaliacao TINYINT NOT NULL CHECK (avaliacao IN (1,2,3,4,5)),
     FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id_usuario),
     FOREIGN KEY (id_musica) REFERENCES tb_musica(id_musica),
@@ -123,8 +122,8 @@ INSERT INTO tb_usuario_genero (id_usuario, id_genero, data_registro) VALUES
 (1, 2, NOW()),
 (2, 2, NOW());
 
-INSERT INTO tb_usuario_musica (id_usuario, id_musica, data_registro, avaliacao) VALUES
-(1, 11, NOW(), 5),
-(1, 14, NOW(), 4),
-(1, 8, NOW(), 4),
-(2, 8, NOW(), 5);
+INSERT INTO tb_usuario_musica (id_usuario, id_musica, avaliacao) VALUES
+(1, 11, 5),
+(1, 14, 4),
+(1, 8, 4),
+(2, 8, 5);

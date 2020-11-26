@@ -14,6 +14,8 @@ public class Controlador {
 
     private static GenerosTela generosTela = new GenerosTela();
 
+    private static MusicasTela musicasTela = new MusicasTela();
+
     private static Usuario usuarioAutenticado;
 
     private Controlador() {
@@ -46,6 +48,7 @@ public class Controlador {
     public static void mostrarTelaDashboard() {
         fecharTela(loginTela);
         fecharTela(generosTela);
+        fecharTela(musicasTela);
         abrirTela(dashboardTela);
     }
 
@@ -55,7 +58,8 @@ public class Controlador {
     }
 
     public static void mostrarTelaAvaliarMusica() {
-
+        fecharTela(dashboardTela);
+        abrirTela(musicasTela);
     }
 
     public static void mostrarTelaReceberRecomendacao() {
