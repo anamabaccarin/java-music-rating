@@ -45,23 +45,23 @@ CREATE TABLE tb_usuario_genero (
     PRIMARY KEY (id_usuario, id_genero)
 );
 
-CREATE TABLE tb_avaliacao (
-    id_avaliacao INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE tb_usuario_musica (
     id_usuario INT NOT NULL,
     id_musica INT NOT NULL,
-    data_avaliacao DATETIME NOT NULL,
+    data_registro DATETIME NOT NULL,
+    avaliacao TINYINT NOT NULL CHECK (avaliacao IN (1,2,3,4,5)),
     FOREIGN KEY (id_usuario) REFERENCES tb_usuario(id_usuario),
     FOREIGN KEY (id_musica) REFERENCES tb_musica(id_musica),
-    UNIQUE KEY indice_unico_avaliacao_usuario_musica (id_usuario, id_musica)
+    PRIMARY KEY (id_usuario, id_musica)
 );
 
 -- Insere dados padrões para o sistema
 
-INSERT INTO tb_usuario(id_usuario, nome_usuario, email_usuario, login_usuario, senha_usuario) VALUES
+INSERT INTO tb_usuario (id_usuario, nome_usuario, email_usuario, login_usuario, senha_usuario) VALUES
 (1, 'Ana Maria', 'anamaria@email.com.br', 'anamaria', '1234'),
 (2, 'Manuela', 'manuela@email.com.br', 'manuela', '1234');
 
-INSERT INTO tb_musica(id_musica, nome_musica) VALUES
+INSERT INTO tb_musica (id_musica, nome_musica) VALUES
 (1, 'Crossroad Blues'),
 (2, 'Manish Boy'),
 (3, 'Spoonful'),
@@ -69,9 +69,9 @@ INSERT INTO tb_musica(id_musica, nome_musica) VALUES
 (5, 'Keep It To Yourself'),
 (6, 'Smoke on the Water'),
 (7, 'Layla'),
-(8, 'Black Dog'),
+(8, 'November Rain'),
 (9, 'Kashmir'),
-(10, 'Sweet Home Alabama'),
+(10, 'Born to be Wild'),
 (11, 'Giant Steps'),
 (12, 'Take 5'),
 (13, 'April in Paris'),
@@ -86,13 +86,13 @@ INSERT INTO tb_musica(id_musica, nome_musica) VALUES
 (22, 'La Belle de Jour'),
 (23, 'Apesar de Você');
 
-INSERT INTO tb_genero(id_genero, nome_genero) VALUES
+INSERT INTO tb_genero (id_genero, nome_genero) VALUES
 (1, 'Blues'),
 (2, 'Rock'),
 (3, 'Jazz'),
 (4, 'MPB');
 
-INSERT INTO tb_musica_genero(id_musica, id_genero) VALUES
+INSERT INTO tb_musica_genero (id_musica, id_genero) VALUES
 (1, 1),
 (2, 1),
 (3, 1),
@@ -118,6 +118,13 @@ INSERT INTO tb_musica_genero(id_musica, id_genero) VALUES
 (22, 4),
 (23, 4);
 
-INSERT INTO tb_usuario_genero(id_usuario, id_genero, data_registro) VALUES
+INSERT INTO tb_usuario_genero (id_usuario, id_genero, data_registro) VALUES
 (1, 3, NOW()),
+(1, 2, NOW()),
 (2, 2, NOW());
+
+INSERT INTO tb_usuario_musica (id_usuario, id_musica, data_registro, avaliacao) VALUES
+(1, 11, NOW(), 5),
+(1, 14, NOW(), 4),
+(1, 8, NOW(), 4),
+(2, 8, NOW(), 5);
