@@ -16,6 +16,8 @@ public class Controlador {
 
     private static MusicasTela musicasTela = new MusicasTela();
 
+    private static RecomendacaoTela recomendacaoTela = new RecomendacaoTela();
+
     private static Usuario usuarioAutenticado;
 
     private Controlador() {
@@ -49,6 +51,7 @@ public class Controlador {
         fecharTela(loginTela);
         fecharTela(generosTela);
         fecharTela(musicasTela);
+        fecharTela(recomendacaoTela);
         abrirTela(dashboardTela);
     }
 
@@ -62,7 +65,9 @@ public class Controlador {
         abrirTela(musicasTela);
     }
 
-    public static void mostrarTelaReceberRecomendacao() {
+    public static void mostrarTelaRecomendacao() {
+        fecharTela(dashboardTela);
+        abrirTela(recomendacaoTela);
     }
 
     private static void abrirTela(JFrame tela) {

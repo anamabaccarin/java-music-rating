@@ -50,7 +50,7 @@ public class GenerosTela extends javax.swing.JFrame {
     public GenerosTela() {
         super("Meus Gêneros");
 
-        generosTableModel = new DefaultTableModel(new String[]{
+        this.generosTableModel = new DefaultTableModel(new String[]{
             "Gênero Musical", "Data de Inserção", ""}, 0) {
 
             @Override
@@ -76,7 +76,7 @@ public class GenerosTela extends javax.swing.JFrame {
             }
         }, COLUNA_EXCLUIR);
 
-        generosTable.getColumnModel().getColumn(COLUNA_EXCLUIR).setMaxWidth(200);
+        this.generosTable.getColumnModel().getColumn(COLUNA_EXCLUIR).setMaxWidth(200);
     }
 
     /**
@@ -127,7 +127,6 @@ public class GenerosTela extends javax.swing.JFrame {
             boolean habilitarAdicionar = !generosNaoPreferidos.isEmpty();
 
             generosComboBox.setEnabled(habilitarAdicionar);
-            adicionarGeneroPanel.setEnabled(habilitarAdicionar);
             adicionarButton.setEnabled(habilitarAdicionar);
 
         } catch (Exception e) {
@@ -154,10 +153,10 @@ public class GenerosTela extends javax.swing.JFrame {
 
         generosScrollPane = new javax.swing.JScrollPane();
         generosTable = new javax.swing.JTable();
-        adicionarGeneroPanel = new javax.swing.JPanel();
+        voltarButton = new javax.swing.JButton();
         generosComboBox = new javax.swing.JComboBox<>();
         adicionarButton = new javax.swing.JButton();
-        voltarButton = new javax.swing.JButton();
+        generojLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,8 +164,14 @@ public class GenerosTela extends javax.swing.JFrame {
         generosTable.getTableHeader().setReorderingAllowed(false);
         generosScrollPane.setViewportView(generosTable);
 
-        adicionarGeneroPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Selecione seus gêneros preferidos"));
+        voltarButton.setText("Voltar");
+        voltarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voltarButtonActionPerformed(evt);
+            }
+        });
 
+        generosComboBox.setBorder(null);
         generosComboBox.setRenderer(getGenerosRenderer());
 
         adicionarButton.setText("Adicionar");
@@ -176,61 +181,44 @@ public class GenerosTela extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout adicionarGeneroPanelLayout = new javax.swing.GroupLayout(adicionarGeneroPanel);
-        adicionarGeneroPanel.setLayout(adicionarGeneroPanelLayout);
-        adicionarGeneroPanelLayout.setHorizontalGroup(
-            adicionarGeneroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(generosComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(adicionarGeneroPanelLayout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(adicionarButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        adicionarGeneroPanelLayout.setVerticalGroup(
-            adicionarGeneroPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(adicionarGeneroPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(generosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addComponent(adicionarButton)
-                .addContainerGap())
-        );
-
-        voltarButton.setText("Voltar");
-        voltarButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                voltarButtonActionPerformed(evt);
-            }
-        });
+        generojLabel.setText("Selecione gênero");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(adicionarGeneroPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(generosScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(27, 27, 27))
+                        .addGap(25, 25, 25)
+                        .addComponent(voltarButton))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(voltarButton)
-                        .addContainerGap(323, Short.MAX_VALUE))))
+                        .addGap(151, 151, 151)
+                        .addComponent(adicionarButton)))
+                .addContainerGap(175, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(generojLabel)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(generosComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(generosScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)))
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(generosScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(adicionarGeneroPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(generosScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(generojLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(generosComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(adicionarButton)
+                .addGap(21, 21, 21)
                 .addComponent(voltarButton)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -253,7 +241,7 @@ public class GenerosTela extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton adicionarButton;
-    private javax.swing.JPanel adicionarGeneroPanel;
+    private javax.swing.JLabel generojLabel;
     private javax.swing.JComboBox<Genero> generosComboBox;
     private javax.swing.JScrollPane generosScrollPane;
     private javax.swing.JTable generosTable;

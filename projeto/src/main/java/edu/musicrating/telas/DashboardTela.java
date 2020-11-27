@@ -63,6 +63,11 @@ public class DashboardTela extends javax.swing.JFrame {
         });
 
         receberRecomendacaoButton.setText("Receber recomendações de músicas!");
+        receberRecomendacaoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                receberRecomendacaoButtonActionPerformed(evt);
+            }
+        });
 
         logoutButton.setText("Encerrar Sessão");
         logoutButton.addActionListener(new java.awt.event.ActionListener() {
@@ -78,12 +83,15 @@ public class DashboardTela extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(receberRecomendacaoButton, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                     .addComponent(avaliarButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(escolherGeneroButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(usuarioLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(41, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(106, 106, 106))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -114,6 +122,10 @@ public class DashboardTela extends javax.swing.JFrame {
     private void avaliarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avaliarButtonActionPerformed
         Controlador.mostrarTelaAvaliarMusica();
     }//GEN-LAST:event_avaliarButtonActionPerformed
+
+    private void receberRecomendacaoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receberRecomendacaoButtonActionPerformed
+        Controlador.mostrarTelaRecomendacao();
+    }//GEN-LAST:event_receberRecomendacaoButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton avaliarButton;
