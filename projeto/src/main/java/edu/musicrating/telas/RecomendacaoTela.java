@@ -1,6 +1,25 @@
 package edu.musicrating.telas;
 
+import edu.musicrating.entidades.Recomendacao;
+import edu.musicrating.negocio.UsuarioMusicaNegocio;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 public class RecomendacaoTela extends javax.swing.JFrame {
+
+    private DefaultTableModel recomendacoesTableModel = new DefaultTableModel(new Object[]{
+        "Musica",
+        "Média"
+    }, 0) {
+        /**
+         * As celulas da tabela não devem ser editaveis
+         */
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
 
     /**
      * Creates new form RecomendacaoTela
@@ -8,6 +27,36 @@ public class RecomendacaoTela extends javax.swing.JFrame {
     public RecomendacaoTela() {
         super("Recomendações de Músicas");
         initComponents();
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+            try {
+                List<Recomendacao> recomendacoes = UsuarioMusicaNegocio.listarRecomendacoes();
+
+                recomendacoesTableModel.setNumRows(0);
+
+                Iterator<Recomendacao> it = recomendacoes.iterator();
+                while (it.hasNext()) {
+                    Recomendacao recomendacao = it.next();
+
+                    // Adicionando uma linha no jtable
+                    recomendacoesTableModel.addRow(new Object[]{
+                        recomendacao.getMusica().getNome(),
+                        recomendacao.getMediaAvaliacoes()
+                    });
+                }
+
+            } catch (Exception ex) {
+                MensagemPopUp.mostrarMensagemErro(this, ex);
+            }
+        }
+        super.setVisible(b);
+    }
+
+    private DefaultTableModel getRecomendacoesTableModel() {
+        return recomendacoesTableModel;
     }
 
     /**
@@ -20,6 +69,8 @@ public class RecomendacaoTela extends javax.swing.JFrame {
     private void initComponents() {
 
         voltarButton = new javax.swing.JButton();
+        recomendacoesScrollPane = new javax.swing.JScrollPane();
+        recomendacoesTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -30,21 +81,31 @@ public class RecomendacaoTela extends javax.swing.JFrame {
             }
         });
 
+        recomendacoesTable.setModel(getRecomendacoesTableModel());
+        recomendacoesTable.getTableHeader().setReorderingAllowed(false);
+        recomendacoesScrollPane.setViewportView(recomendacoesTable);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(voltarButton)
-                .addContainerGap(336, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(recomendacoesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(voltarButton)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(247, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(recomendacoesScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(voltarButton)
-                .addGap(25, 25, 25))
+                .addGap(13, 13, 13))
         );
 
         pack();
@@ -55,6 +116,8 @@ public class RecomendacaoTela extends javax.swing.JFrame {
     }//GEN-LAST:event_voltarButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane recomendacoesScrollPane;
+    private javax.swing.JTable recomendacoesTable;
     private javax.swing.JButton voltarButton;
     // End of variables declaration//GEN-END:variables
 }

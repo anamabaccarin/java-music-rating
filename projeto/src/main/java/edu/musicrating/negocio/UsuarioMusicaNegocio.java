@@ -2,6 +2,7 @@ package edu.musicrating.negocio;
 
 import edu.musicrating.dao.UsuarioMusicaDAO;
 import edu.musicrating.entidades.Musica;
+import edu.musicrating.entidades.Recomendacao;
 import edu.musicrating.entidades.Usuario;
 import edu.musicrating.entidades.UsuarioMusica;
 import edu.musicrating.telas.Controlador;
@@ -22,7 +23,10 @@ public class UsuarioMusicaNegocio {
         return UsuarioMusicaDAO.listarMusicasPreferidas(usuario);
     }
 
-    public static void inserirAvaliacaoMusica(Musica musica, Integer avaliacao) throws Exception {
+    /**
+     * Implementação da regra de negocio para avaliação de musica
+     */
+    public static void avaliarMusica(Musica musica, Integer avaliacao) throws Exception {
         Usuario usuario = Controlador.getUsuarioAutenticado();
 
         UsuarioMusica usuarioMusica = new UsuarioMusica();
@@ -30,16 +34,15 @@ public class UsuarioMusicaNegocio {
         usuarioMusica.setMusica(musica);
         usuarioMusica.setAvaliacao(avaliacao);
 
-        UsuarioMusicaDAO.inserirAvaliacaoMusica(usuarioMusica);
+        UsuarioMusicaDAO.removerAvaliacaoMusica(usuarioMusica);
+        if (avaliacao != 0) {
+            UsuarioMusicaDAO.inserirAvaliacaoMusica(usuarioMusica);
+        }
     }
 
-    public static void removerAvaliacaoMusica(Musica musica) throws Exception {
+    public static List<Recomendacao> listarRecomendacoes() throws Exception {
         Usuario usuario = Controlador.getUsuarioAutenticado();
 
-        UsuarioMusica usuarioMusica = new UsuarioMusica();
-        usuarioMusica.setUsuario(usuario);
-        usuarioMusica.setMusica(musica);
-
-        UsuarioMusicaDAO.removerAvaliacaoMusica(usuarioMusica);
+        return UsuarioMusicaDAO.listarRecomendacoes(usuario);
     }
 }

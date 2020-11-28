@@ -36,13 +36,11 @@ public class MusicasTela extends javax.swing.JFrame {
             @Override
             public void setValueAt(Object aValue, int row, int column) {
                 try {
-                    Integer avaliacao = (Integer) aValue;
                     Musica musica = (Musica) musicasTableModel.getValueAt(row, COLUNA_MUSICA);
-                    if (avaliacao == 0) {
-                        UsuarioMusicaNegocio.removerAvaliacaoMusica(musica);
-                    } else {
-                        UsuarioMusicaNegocio.inserirAvaliacaoMusica(musica, avaliacao);
-                    }
+                    Integer avaliacao = (Integer) aValue;
+
+                    UsuarioMusicaNegocio.avaliarMusica(musica, avaliacao);
+
                     super.setValueAt(aValue, row, column);
                 } catch (Exception ex) {
                     MensagemPopUp.mostrarMensagemErro(MusicasTela.this, ex);

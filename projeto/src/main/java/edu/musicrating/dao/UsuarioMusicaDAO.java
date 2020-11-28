@@ -2,6 +2,7 @@ package edu.musicrating.dao;
 
 import edu.musicrating.entidades.Genero;
 import edu.musicrating.entidades.Musica;
+import edu.musicrating.entidades.Recomendacao;
 import edu.musicrating.entidades.Usuario;
 import edu.musicrating.entidades.UsuarioMusica;
 import java.sql.Connection;
@@ -21,15 +22,15 @@ public class UsuarioMusicaDAO {
 
         try ( Connection connection = FabricaDeConexao.obterConexao()) {
 
-            String sql = new StringBuilder()
-                    .append("SELECT M.id_musica, M.nome_musica, G.id_genero, G.nome_genero, UM.avaliacao")
-                    .append(" FROM tb_musica M")
-                    .append(" INNER JOIN tb_musica_genero MG ON MG.id_musica = M.id_musica")
-                    .append(" INNER JOIN tb_usuario_genero UG ON UG.id_genero = MG.id_genero AND UG.id_usuario = ?")
-                    .append(" INNER JOIN tb_genero G on G.id_genero = MG.id_genero")
-                    .append(" LEFT OUTER JOIN tb_usuario_musica UM ON UM.id_usuario = UG.id_usuario AND UM.id_musica = M.id_musica")
-                    .append(" ORDER BY G.nome_genero, M.nome_musica")
-                    .toString();
+            String sql = String.join("\n",
+                    "SELECT M.id_musica, M.nome_musica, G.id_genero, G.nome_genero, UM.avaliacao",
+                    "FROM tb_musica M",
+                    "INNER JOIN tb_musica_genero MG ON MG.id_musica = M.id_musica",
+                    "INNER JOIN tb_usuario_genero UG ON UG.id_genero = MG.id_genero AND UG.id_usuario = ?",
+                    "INNER JOIN tb_genero G on G.id_genero = MG.id_genero",
+                    "LEFT OUTER JOIN tb_usuario_musica UM ON UM.id_usuario = UG.id_usuario AND UM.id_musica = M.id_musica",
+                    "ORDER BY G.nome_genero, M.nome_musica"
+            );
 
             try ( PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setInt(1, usuario.getId());
@@ -107,4 +108,51 @@ public class UsuarioMusicaDAO {
         }
     }
 
+    public static List<Recomendacao> listarRecomendacoes(Usuario usuario) throws Exception {
+        try ( Connection connection = FabricaDeConexao.obterConexao()) {
+
+            String sql = String.join("\n",
+                    // Seleciona todas as musicas da base de dados e calcula a media de avaliacoes
+                    "SELECT M.id_musica, M.nome_musica, AVG(UM.avaliacao) AS 'media_avaliacoes', COUNT(UM.avaliacao) 'numero_avaliacoes'",
+                    "FROM (",
+                    // Seleciona todas as musicas da base de dados que pertençam ao genero preferido do usuario
+                    "  SELECT DISTINCT M.id_musica, M.nome_musica",
+                    "  FROM tb_musica M",
+                    "  INNER JOIN tb_musica_genero MG ON MG.id_musica = M.id_musica",
+                    "  INNER JOIN tb_usuario_genero UG ON UG.id_genero = MG.id_genero AND UG.id_usuario = ?",
+                    // Para não trazer uma música já avaliada para lista de recomendação
+                    "  WHERE M.id_musica NOT IN(",
+                    "    SELECT id_musica FROM tb_usuario_musica WHERE id_usuario = ?",
+                    "  )",
+                    ") M",
+                    "LEFT OUTER JOIN tb_usuario_musica UM ON UM.id_musica = M.id_musica",
+                    "GROUP BY M.id_musica",
+                    "ORDER BY media_avaliacoes DESC"
+            );
+
+            try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+                Integer id = usuario.getId();
+                ps.setInt(1, id);
+                ps.setInt(2, id);
+
+                try ( ResultSet rs = ps.executeQuery()) {
+
+                    // Criação de lista de recomendações para mapeamento
+                    List<Recomendacao> lista = new ArrayList<>();
+                    while (rs.next()) {
+                        Musica musica = new Musica();
+                        musica.setId(rs.getInt("id_musica"));
+                        musica.setNome(rs.getString("nome_musica"));
+
+                        Recomendacao recomendacao = new Recomendacao();
+                        recomendacao.setMusica(musica);
+                        recomendacao.setMediaAvaliacoes(rs.getDouble("media_avaliacoes"));
+
+                        lista.add(recomendacao);
+                    }
+                    return lista;
+                }
+            }
+        }
+    }
 }

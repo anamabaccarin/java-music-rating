@@ -32,12 +32,12 @@ public class UsuarioDAO {
     public static Usuario login(Usuario usuario) throws Exception {
         try ( Connection connection = FabricaDeConexao.obterConexao()) {
 
-            String sql = new StringBuilder()
-                    .append("SELECT id_usuario, nome_usuario, login_usuario, email_usuario")
-                    .append(" FROM tb_usuario")
-                    .append(" WHERE (login_usuario LIKE ? OR email_usuario LIKE ?)")
-                    .append("   AND senha_usuario LIKE ?")
-                    .toString();
+            String sql = String.join("\n",
+                    "SELECT id_usuario, nome_usuario, login_usuario, email_usuario",
+                    "FROM tb_usuario",
+                    "WHERE (login_usuario LIKE ? OR email_usuario LIKE ?)",
+                    "  AND senha_usuario LIKE ?"
+            );
 
             try ( PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setString(1, usuario.getLogin());

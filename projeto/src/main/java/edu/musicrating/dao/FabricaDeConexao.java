@@ -16,6 +16,9 @@ public class FabricaDeConexao {
 
     private static String db = "musicas";
 
+    private FabricaDeConexao() {
+    }
+
     public static Connection obterConexao() throws SQLException {
         return DriverManager.getConnection(
                 "jdbc:mysql://" + host + ":" + porta + "/" + db,

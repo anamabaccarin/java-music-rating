@@ -18,15 +18,16 @@ public class UsuarioGeneroDAO {
     public static List<Genero> listarGenerosNaoPreferidos(Usuario usuario) throws Exception {
         try ( Connection connection = FabricaDeConexao.obterConexao()) {
 
-            String sql = new StringBuilder()
-                    .append("SELECT G.id_genero, G.nome_genero")
-                    .append(" FROM tb_genero G")
-                    .append(" WHERE G.id_genero NOT IN (")
-                    .append("   SELECT UG.id_genero")
-                    .append("   FROM tb_usuario_genero UG")
-                    .append("   WHERE UG.id_usuario = ?)")
-                    .append(" ORDER BY G.nome_genero")
-                    .toString();
+            String sql = String.join("\n",
+                    "SELECT G.id_genero, G.nome_genero",
+                    "FROM tb_genero G",
+                    "WHERE G.id_genero NOT IN (",
+                    "  SELECT UG.id_genero",
+                    "  FROM tb_usuario_genero UG",
+                    "  WHERE UG.id_usuario = ?",
+                    ")",
+                    "ORDER BY G.nome_genero"
+            );
 
             try ( PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setInt(1, usuario.getId());
@@ -49,13 +50,13 @@ public class UsuarioGeneroDAO {
     public static List<UsuarioGenero> listarGenerosPreferidos(Usuario usuario) throws Exception {
         try ( Connection connection = FabricaDeConexao.obterConexao()) {
 
-            String sql = new StringBuilder()
-                    .append("SELECT UG.id_usuario, UG.data_registro, G.id_genero, G.nome_genero")
-                    .append(" FROM tb_usuario_genero UG")
-                    .append(" INNER JOIN tb_genero G ON G.id_genero = UG.id_genero")
-                    .append(" WHERE UG.id_usuario = ?")
-                    .append(" ORDER BY UG.data_registro DESC")
-                    .toString();
+            String sql = String.join("\n",
+                    "SELECT UG.id_usuario, UG.data_registro, G.id_genero, G.nome_genero",
+                    "FROM tb_usuario_genero UG",
+                    "INNER JOIN tb_genero G ON G.id_genero = UG.id_genero",
+                    "WHERE UG.id_usuario = ?",
+                    "ORDER BY UG.data_registro DESC"
+            );
 
             try ( PreparedStatement ps = connection.prepareStatement(sql)) {
                 ps.setInt(1, usuario.getId());

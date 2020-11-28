@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.musicrating.telas;
 
 import edu.musicrating.entidades.Usuario;
 import edu.musicrating.negocio.UsuarioNegocio;
 
-/**
- *
- * @author anamaria
- */
 public class DashboardTela extends javax.swing.JFrame {
 
     /**
@@ -112,7 +103,7 @@ public class DashboardTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void escolherGeneroButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escolherGeneroButtonActionPerformed
-       Controlador.mostrarTelaGeneros();
+        Controlador.mostrarTelaGeneros();
     }//GEN-LAST:event_escolherGeneroButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
