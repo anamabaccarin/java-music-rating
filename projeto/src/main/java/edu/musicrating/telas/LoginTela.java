@@ -1,5 +1,6 @@
 package edu.musicrating.telas;
 
+import edu.musicrating.negocio.Controlador;
 import edu.musicrating.negocio.UsuarioNegocio;
 
 public class LoginTela extends javax.swing.JFrame {

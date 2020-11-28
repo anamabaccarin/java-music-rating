@@ -2,7 +2,6 @@ package edu.musicrating.negocio;
 
 import edu.musicrating.dao.UsuarioDAO;
 import edu.musicrating.entidades.Usuario;
-import edu.musicrating.telas.Controlador;
 
 public class UsuarioNegocio {
 

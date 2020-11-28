@@ -1,5 +1,6 @@
 package edu.musicrating.telas;
 
+import edu.musicrating.negocio.Controlador;
 import edu.musicrating.entidades.Usuario;
 import edu.musicrating.negocio.UsuarioNegocio;
 

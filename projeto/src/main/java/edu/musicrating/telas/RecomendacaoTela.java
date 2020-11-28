@@ -1,5 +1,6 @@
 package edu.musicrating.telas;
 
+import edu.musicrating.negocio.Controlador;
 import edu.musicrating.entidades.Recomendacao;
 import edu.musicrating.negocio.UsuarioMusicaNegocio;
 import java.util.Iterator;

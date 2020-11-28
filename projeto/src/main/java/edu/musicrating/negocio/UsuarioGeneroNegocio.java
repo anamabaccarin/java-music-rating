@@ -4,7 +4,6 @@ import edu.musicrating.dao.UsuarioGeneroDAO;
 import edu.musicrating.entidades.Genero;
 import edu.musicrating.entidades.Usuario;
 import edu.musicrating.entidades.UsuarioGenero;
-import edu.musicrating.telas.Controlador;
 import java.util.Date;
 import java.util.List;
 

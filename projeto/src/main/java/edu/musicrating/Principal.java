@@ -1,6 +1,6 @@
 package edu.musicrating;
 
-import edu.musicrating.telas.Controlador;
+import edu.musicrating.negocio.Controlador;
 
 public class Principal {
 

@@ -5,7 +5,6 @@ import edu.musicrating.entidades.Musica;
 import edu.musicrating.entidades.Recomendacao;
 import edu.musicrating.entidades.Usuario;
 import edu.musicrating.entidades.UsuarioMusica;
-import edu.musicrating.telas.Controlador;
 import java.util.List;
 
 public class UsuarioMusicaNegocio {

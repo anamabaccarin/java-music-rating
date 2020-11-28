@@ -1,9 +1,19 @@
-package edu.musicrating.telas;
+package edu.musicrating.negocio;
 
 import edu.musicrating.entidades.Usuario;
+import edu.musicrating.telas.CadastroTela;
+import edu.musicrating.telas.DashboardTela;
+import edu.musicrating.telas.GenerosTela;
+import edu.musicrating.telas.LoginTela;
+import edu.musicrating.telas.MusicasTela;
+import edu.musicrating.telas.RecomendacaoTela;
 import java.awt.Color;
 import javax.swing.JFrame;
 
+/**
+ * A classe controlador tem a responsabilidade de conter as instancias das
+ * telas. Também inclui funcionades para navegação entre as telas.
+ */
 public class Controlador {
 
     private static LoginTela loginTela = new LoginTela();
