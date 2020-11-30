@@ -8,8 +8,6 @@ public class Genero {
 
     private String nome;
 
-    private List<Musica> musicas;
-
     public Integer getId() {
         return id;
     }
@@ -24,13 +22,5 @@ public class Genero {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public List<Musica> getMusicas() {
-        return musicas;
-    }
-
-    public void setMusicas(List<Musica> musicas) {
-        this.musicas = musicas;
     }
 }
