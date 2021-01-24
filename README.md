@@ -1,7 +1,9 @@
 # Java Music Rating System
 ## A Music rating system with Java
 
-This is an academic project developed during the first semester of college, using Java and MySQL.
+This is an academic project developed during the first semester of college, using:
+ - Java - version : 11.0.9.1,
+ - MySQL - version : 8.0.22
 
 This simple music rating system presents features such as:
 
